@@ -55,10 +55,15 @@ class BinarySearchTree extends React.Component {
     this.add(4);
     this.add(11);
     this.add(9);
+    this.add(10);
+    this.add(14);
+    this.add(12);
+    this.add(15);
+    // this.add(13);
 
     return (
       <Root>
-        <RenderTree nodes={[this.root]} level={5} />
+        <RenderTree nodes={[this.root]} level={6} />
       </Root>
     )
   }
