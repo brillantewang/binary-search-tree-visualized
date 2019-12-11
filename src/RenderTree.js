@@ -6,11 +6,21 @@ const Root = styled.div`
 `;
 
 const Circle = styled.div`
+  box-sizing: border-box;
   border: 5px solid white;
   border-radius: 50%;
   padding: 10px;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+`;
+
+const NullPlaceholder = styled.div`
+  width: 60px;
+  height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,17 +32,18 @@ const Cluster = styled.div`
   align-items: center;
 `;
 
-const RenderTree = ({ nodes }) => {
+const RenderTree = ({ nodes, level }) => {
+  if (level === 0) return null;
+
   return (
     <Root>
       {nodes.map(node => {
-        if (node === null) return <Circle>null</Circle>
+        const children = node ? [node.left, node.right] : [null, null];
 
-        const children = [node.left, node.right];
         return (
           <Cluster>
-            <Circle>{node.data}</Circle>
-            <RenderTree nodes={children} />
+            {node ? <Circle>{node.data}</Circle> : <NullPlaceholder />}
+            <RenderTree nodes={children} level={level - 1} />
           </Cluster>
         );
       })}

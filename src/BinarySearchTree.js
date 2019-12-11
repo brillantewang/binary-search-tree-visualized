@@ -38,6 +38,9 @@ class BinarySearchTree extends React.Component {
     }
   }
 
+  getHeight(node = this.root) {
+  }
+
   render() {
     // console.log(this.root, 'a');
     this.add(5);
@@ -55,7 +58,7 @@ class BinarySearchTree extends React.Component {
 
     return (
       <Root>
-        <RenderTree nodes={[this.root]} level={0} />
+        <RenderTree nodes={[this.root]} level={5} />
       </Root>
     )
   }
