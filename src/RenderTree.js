@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components/macro';
 
 const Root = styled.div`
@@ -10,17 +10,20 @@ const Circle = styled.div`
   border: 5px solid white;
   border-radius: 50%;
   padding: 10px;
-  width: 60px;
-  height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin: ${props => `${4 - (0.4 * props.height)}vh`};
+  width: ${props => `${10 - props.height}vh`};
+  height: ${props => `${10 - props.height}vh`};
 `;
 
 const NullPlaceholder = styled.div`
-  width: 30px;
-  height: 30px;
+  /* margin: 2vh; */
+  width: 2vh;
+  height: 2vh;
+  /* width: 4px;
+  height: 4px; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,9 +33,10 @@ const Cluster = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* width: 100%; */
 `;
 
-const RenderTree = ({ nodes, level }) => {
+const RenderTree = ({ nodes, level, height }) => {
   if (level === 0) return null;
 
   return (
@@ -42,8 +46,8 @@ const RenderTree = ({ nodes, level }) => {
 
         return (
           <Cluster>
-            {node ? <Circle>{node.data}</Circle> : <NullPlaceholder />}
-            <RenderTree nodes={children} level={level - 1} />
+            {node ? <Circle height={height}>{node.data}</Circle> : <NullPlaceholder />}
+            <RenderTree nodes={children} level={level - 1} height={height} />
           </Cluster>
         );
       })}

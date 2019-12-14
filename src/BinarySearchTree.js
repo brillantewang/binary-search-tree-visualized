@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import Node from './Node';
 import RenderTree from './RenderTree';
+import Add from './inputs/Add';
 
 const Root = styled.div`
   display: flex;
@@ -13,57 +14,41 @@ class BinarySearchTree extends React.Component {
   constructor(props) {
     super(props);
 
-    this.root = null;
+    this.ref = React.createRef();
   }
 
-  add(data, node = this.root) {
-    const newNode = new Node(data);
-    if (this.root === null) {
-      this.root = newNode;
-      return;
-    }
+  state = { root: new Node(10), valueToAdd: '' }
 
-    if (data < node.data) {
-      if (node.left === null) {
-        node.left = newNode;
-      } else {
-        this.add(data, node.left);
-      }
+  setRoot = root => {
+    this.setState({ root: { ...root }}); // replaces root insteads of mutates it
+  }
+
+  getTreeHeight(node = this.state.root) {
+    let childHeight;
+    if (node.left && node.right) {
+      const leftHeight = this.getTreeHeight(node.left);
+      const rightHeight = this.getTreeHeight(node.right);
+      childHeight = leftHeight > rightHeight ? leftHeight : rightHeight;
+    } else if (node.left) {
+      childHeight = this.getTreeHeight(node.left);
+    } else if (node.right) {
+      childHeight = this.getTreeHeight(node.right);
     } else {
-      if (node.right === null) {
-        node.right = newNode;
-      } else {
-        this.add(data, node.right);
-      }
+      childHeight = 0;
     }
+
+    return childHeight + 1;
   }
 
-  getHeight(node = this.root) {
-  }
-
-  render() {
-    // console.log(this.root, 'a');
-    this.add(5);
-    // console.log(this.root, 'b');
-    this.add(2);
-    // console.log(this.root, 'c');
-    this.add(8);
-    // console.log(this.root, 'c');
-    this.add(18);
-    this.add(1);
-    this.add(7);
-    this.add(4);
-    this.add(11);
-    this.add(9);
-    this.add(10);
-    this.add(14);
-    this.add(12);
-    this.add(15);
-    // this.add(13);
+  render = () => {
+    const treeHeight = this.getTreeHeight();
+    console.log(treeHeight, 'treeHeight');
+    if (this.ref.current) console.log(this.ref.current.offsetWidth);
 
     return (
-      <Root>
-        <RenderTree nodes={[this.root]} level={6} />
+      <Root ref={this.ref}>
+        <Add root={this.state.root} setRoot={this.setRoot} />
+        <RenderTree nodes={[this.state.root]} level={treeHeight} treeHeight={treeHeight} />
       </Root>
     )
   }
