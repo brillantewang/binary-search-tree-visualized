@@ -2,6 +2,19 @@ import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 import Node from '../Node';
 
+const Root = styled.form`
+  display: flex;
+`;
+
+const Input = styled.input`
+`;
+
+const Button = styled.input`
+  color: white;
+  cursor: pointer;
+  padding-left: 4px;
+`;
+
 const Add = ({ root, setRoot }) => {
   const [value, setValue] = useState('');
 
@@ -25,7 +38,8 @@ const Add = ({ root, setRoot }) => {
 
   const handleChange = e => setValue(e.target.value);
 
-  const handleClickAdd = () => {
+  const handleClickAdd = e => {
+    e.preventDefault();
     addNode(parseInt(value));
     setValue('');
     setRoot(root);
@@ -34,10 +48,10 @@ const Add = ({ root, setRoot }) => {
   console.log(root, 'root');
 
   return (
-    <div>
-      <input value={value} onChange={handleChange} />
-      <button onClick={handleClickAdd}>add node</button>
-    </div>
+    <Root>
+      <Input value={value} onChange={handleChange} />
+      <Button type='submit' onClick={handleClickAdd} value='add node' />
+    </Root>
   )
 };
 

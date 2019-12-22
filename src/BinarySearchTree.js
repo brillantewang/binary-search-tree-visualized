@@ -4,10 +4,21 @@ import Node from './Node';
 import RenderTree from './RenderTree';
 import Add from './inputs/Add';
 
-const Root = styled.div`
+const TreeContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  overflow: scroll;
+  flex-grow: 1;
+  min-width: 100vw;
+  width: fit-content;
+`;
+
+const ControlPanel = styled.div`
+  position: fixed;
+  color: white;
+  padding: 8px;
 `;
 
 class BinarySearchTree extends React.Component {
@@ -17,7 +28,7 @@ class BinarySearchTree extends React.Component {
     this.ref = React.createRef();
   }
 
-  state = { root: new Node(10), valueToAdd: '' }
+  state = { root: new Node(40) }
 
   setRoot = root => {
     this.setState({ root: { ...root }}); // replaces root insteads of mutates it
@@ -43,13 +54,16 @@ class BinarySearchTree extends React.Component {
   render = () => {
     const treeHeight = this.getTreeHeight();
     console.log(treeHeight, 'treeHeight');
-    if (this.ref.current) console.log(this.ref.current.offsetWidth);
 
     return (
-      <Root ref={this.ref}>
-        <Add root={this.state.root} setRoot={this.setRoot} />
-        <RenderTree nodes={[this.state.root]} level={treeHeight} treeHeight={treeHeight} />
-      </Root>
+      <>
+        <ControlPanel>
+          <Add root={this.state.root} setRoot={this.setRoot} />
+        </ControlPanel>
+        <TreeContainer ref={this.ref}>
+          <RenderTree nodes={[this.state.root]} level={treeHeight} treeHeight={treeHeight} />
+        </TreeContainer>
+      </>
     )
   }
 }
