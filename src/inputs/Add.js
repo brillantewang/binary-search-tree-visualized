@@ -45,8 +45,6 @@ const Add = ({ root, setRoot }) => {
     setRoot(root);
   }
 
-  console.log(root, 'root');
-
   return (
     <Root>
       <Input value={value} onChange={handleChange} />

@@ -53,7 +53,6 @@ class BinarySearchTree extends React.Component {
 
   render = () => {
     const treeHeight = this.getTreeHeight();
-    console.log(treeHeight, 'treeHeight');
 
     return (
       <>

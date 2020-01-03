@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components/macro';
 
 const Root = styled.div`
@@ -36,7 +36,21 @@ const Cluster = styled.div`
 `;
 
 const RenderTree = ({ nodes, level, treeHeight }) => {
+  const [leftNodePos, setLeftNodePos] = useState(null);
+  const [rightNodePos, setRightNodePos] = useState(null);
+
+  const setNodePos = useCallback(element => {
+    if (element !== null) {
+      const isLeftNode = element.getAttribute('data-pos') === 'left';
+      const posObj = element.getBoundingClientRect();
+      isLeftNode ? setLeftNodePos(posObj) : setRightNodePos(posObj);
+    }
+  }, []);
+
   if (level === 0) return null;
+
+  console.log(leftNodePos, 'left node pos');
+  console.log(rightNodePos, 'right node pos');
 
   return (
     <Root>
@@ -45,7 +59,16 @@ const RenderTree = ({ nodes, level, treeHeight }) => {
 
         return (
           <Cluster key={`${level}${idx}`}>
-            {node ? <Circle height={treeHeight}>{node.data}</Circle> : <NullPlaceholder />}
+            {node ?
+              <Circle
+                data-pos={idx === 0 ? 'left' : 'right'}
+                height={treeHeight}
+                ref={setNodePos}
+              >
+                {node.data}
+              </Circle> :
+              <NullPlaceholder />
+            }
             <RenderTree nodes={children} level={level - 1} treeHeight={treeHeight} />
           </Cluster>
         );
