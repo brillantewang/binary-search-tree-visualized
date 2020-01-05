@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components/macro';
+import LineTo from './LineTo';
 
 const Root = styled.div`
   display: flex;
@@ -35,27 +36,39 @@ const Cluster = styled.div`
   align-items: center;
 `;
 
-const RenderTree = ({ nodes, level, treeHeight }) => {
+const RenderTree = ({ nodes, level, treeHeight, parentPos }) => {
   const [leftNodePos, setLeftNodePos] = useState(null);
   const [rightNodePos, setRightNodePos] = useState(null);
 
+  const areNodesSamePosition = (node1Pos, node2Pos) => {
+    if (!node1Pos || !node2Pos) return false;
+
+    return node1Pos.x === node2Pos.x && node1Pos.y === node2Pos.y;
+  };
+
   const setNodePos = useCallback(element => {
-    if (element !== null) {
+    if (element) {
       const isLeftNode = element.getAttribute('data-pos') === 'left';
       const posObj = element.getBoundingClientRect();
-      isLeftNode ? setLeftNodePos(posObj) : setRightNodePos(posObj);
+
+      if (isLeftNode) {
+        if (!areNodesSamePosition(leftNodePos, posObj)) setLeftNodePos(posObj);
+      } else {
+        if (!areNodesSamePosition(rightNodePos, posObj)) setRightNodePos(posObj);
+      }
     }
-  }, []);
+  });
+
+  console.log(leftNodePos, 'left')
+  console.log(rightNodePos, 'right')
 
   if (level === 0) return null;
-
-  console.log(leftNodePos, 'left node pos');
-  console.log(rightNodePos, 'right node pos');
 
   return (
     <Root>
       {nodes.map((node, idx) => {
         const children = node ? [node.left, node.right] : [null, null];
+        const currentPos = idx === 0 ? leftNodePos : rightNodePos;
 
         return (
           <Cluster key={`${level}${idx}`}>
@@ -69,7 +82,10 @@ const RenderTree = ({ nodes, level, treeHeight }) => {
               </Circle> :
               <NullPlaceholder />
             }
-            <RenderTree nodes={children} level={level - 1} treeHeight={treeHeight} />
+            <RenderTree parentPos={currentPos} nodes={children} level={level - 1} treeHeight={treeHeight} />
+            {parentPos && currentPos &&
+              <LineTo x1={parentPos.x} y1={parentPos.y} x2={currentPos.x} y2={currentPos.y} />
+            }
           </Cluster>
         );
       })}

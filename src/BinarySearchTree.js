@@ -19,6 +19,7 @@ const ControlPanel = styled.div`
   position: fixed;
   color: white;
   padding: 8px;
+  z-index: 1;
 `;
 
 class BinarySearchTree extends React.Component {
