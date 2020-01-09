@@ -83,9 +83,7 @@ const RenderTree = ({ nodes, level, treeHeight, parentPos }) => {
               <NullPlaceholder />
             }
             <RenderTree parentPos={currentPos} nodes={children} level={level - 1} treeHeight={treeHeight} />
-            {parentPos && currentPos &&
-              <LineTo x1={parentPos.x} y1={parentPos.y} x2={currentPos.x} y2={currentPos.y} />
-            }
+            {parentPos && currentPos && <LineTo fromPos={parentPos} toPos={currentPos} />}
           </Cluster>
         );
       })}

@@ -15,11 +15,16 @@ const StyledSvg = styled.svg`
 `;
 
 
-const LineTo = ({x1, y1, x2, y2}) => {
+const LineTo = ({ fromPos, toPos }) => {
+  const x1 = fromPos.x + (fromPos.width / 2);
+  const y1 = fromPos.y + (fromPos.height / 2);
+  const x2 = toPos.x + (toPos.width / 2);
+  const y2 = toPos.y + (toPos.height / 2);
+
   return (
     <FixedContainer>
       <StyledSvg>
-        <line strokeWidth="2px" stroke="white" x1={x1} y1={y1} x2={x2} y2={y2} />
+        <line strokeWidth="2px" stroke="red" x1={x1} y1={y1} x2={x2} y2={y2} />
       </StyledSvg>
     </FixedContainer>
   )
