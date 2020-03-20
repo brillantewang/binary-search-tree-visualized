@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import Node from './Node';
 import RenderTree from './RenderTree';
 import Add from './inputs/Add';
 
@@ -29,13 +28,15 @@ class BinarySearchTree extends React.Component {
     this.ref = React.createRef();
   }
 
-  state = { root: new Node(40) }
+  state = { root: null }
 
   setRoot = root => {
     this.setState({ root: { ...root }}); // replaces root insteads of mutates it
   }
 
   getTreeHeight(node = this.state.root) {
+    if (node === null) return 0;
+
     let childHeight;
     if (node.left && node.right) {
       const leftHeight = this.getTreeHeight(node.left);
@@ -61,6 +62,7 @@ class BinarySearchTree extends React.Component {
           <Add root={this.state.root} setRoot={this.setRoot} />
         </ControlPanel>
         <TreeContainer ref={this.ref}>
+          {this.state.root === null && <div>Start by adding a node (enter a number).</div>}
           <RenderTree nodes={[this.state.root]} level={treeHeight} treeHeight={treeHeight} />
         </TreeContainer>
       </>

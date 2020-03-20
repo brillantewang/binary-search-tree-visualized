@@ -9,7 +9,7 @@ const Root = styled.div`
 
 const Circle = styled.div`
   box-sizing: border-box;
-  border: ${props => `${5 - (props.height / 2)}px solid white`};
+  border: 0.4vh solid white;
   border-radius: 50%;
   padding: 10px;
   display: flex;
@@ -58,9 +58,6 @@ const RenderTree = ({ nodes, level, treeHeight, parentPos }) => {
       }
     }
   });
-
-  console.log(leftNodePos, 'left')
-  console.log(rightNodePos, 'right')
 
   if (level === 0) return null;
 
