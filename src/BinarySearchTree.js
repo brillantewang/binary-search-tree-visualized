@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
 import RenderTree from './RenderTree';
 import Add from './inputs/Add';
@@ -23,8 +23,20 @@ const ControlPanel = styled.div`
 
 const BinarySearchTree = () => {
   const [root, setRoot] = useState(null);
+  const [windowDimensions, setWindowDimensions] = useState({
+    height: window.innerHeight,
+    width: window.innerWidth,
+  });
+
 
   const handleSetRoot = newRoot => setRoot({ ...newRoot }); // replaces root instead of mutates it
+
+  const handleResize = () => setWindowDimensions({
+    height: window.innerHeight,
+    width: window.innerWidth,
+  });
+
+  useEffect(() => window.addEventListener('resize', handleResize), []);
 
   const getTreeHeight = (node = root) => {
     if (node === null) return 0;

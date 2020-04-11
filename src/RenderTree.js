@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components/macro';
 import LineTo from './LineTo';
 
@@ -39,10 +39,6 @@ const Cluster = styled.div`
 const RenderTree = ({ nodes, level, treeHeight, parentPos }) => {
   const [leftNodePos, setLeftNodePos] = useState(null);
   const [rightNodePos, setRightNodePos] = useState(null);
-  const [windowDimensions, setWindowDimensions] = useState({
-    height: window.innerHeight,
-    width: window.innerWidth,
-  });
 
   const areNodesSamePosition = (node1Pos, node2Pos) => {
     if (!node1Pos || !node2Pos) return false;
@@ -62,13 +58,6 @@ const RenderTree = ({ nodes, level, treeHeight, parentPos }) => {
       }
     }
   });
-
-  const handleResize = () => setWindowDimensions({
-    height: window.innerHeight,
-    width: window.innerWidth,
-  });
-
-  useEffect(() => window.addEventListener('resize', handleResize), []);
 
   if (level === 0) return null;
 
