@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "524932f7791f0a8a4873b6dabb4dfa50",
+    "revision": "b137fccc1326047c19262aee874d64a2",
     "url": "/binary-search-tree-visualized/index.html"
   },
   {
