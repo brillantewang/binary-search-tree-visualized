@@ -35,7 +35,6 @@ const Add = ({ root, setRoot }) => {
 
   const addNode = (data, node = root) => {
     newNodeHeight += 1;
-    console.log(newNodeHeight, 'new node height');
 
     if (newNodeHeight > 7) {
       setError('Tree is getting too tall. Try entering a different value.');
@@ -63,25 +62,31 @@ const Add = ({ root, setRoot }) => {
     }
   }
 
-  const handleChange = e => setValue(e.target.value);
-
-  const handleClickAdd = e => {
-    e.preventDefault();
-    if (value > 999 || value < -999) {
+  const handleChange = e => {
+    const valueInt = parseInt(e.target.value);
+    if (valueInt > 999 || valueInt < -999) {
       setError('Please enter a value between -999 and 999');
     } else {
       setError('');
-      addNode(parseInt(value));
-      newNodeHeight = 1;
-      setValue('');
-      if (root) setRoot(root);
     }
+
+    setValue(e.target.value);
+  };
+
+  const handleClickAdd = e => {
+    e.preventDefault();
+
+    setError('');
+    addNode(parseInt(value));
+    newNodeHeight = 1;
+    setValue('');
+    if (root) setRoot(root);
   }
 
   return (
     <Root>
       <Input type='number' value={value} onChange={handleChange} />
-      <Button type='submit' onClick={handleClickAdd} value='add node' disabled={!value} />
+      <Button type='submit' onClick={handleClickAdd} value='add node' disabled={!value || error} />
       <Error>{error}</Error>
     </Root>
   )
