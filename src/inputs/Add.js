@@ -9,6 +9,11 @@ const Root = styled.form`
 const Input = styled.input`
 `;
 
+const InputContainer = styled.div`
+  display: flex;
+  height: fit-content;
+`;
+
 const Button = styled.input`
   color: ${props => props.disabled ? `grey` : `white`};
   cursor: ${props => props.disabled ? `default` : `pointer`};
@@ -85,8 +90,10 @@ const Add = ({ root, setRoot }) => {
 
   return (
     <Root>
-      <Input type='number' value={value} onChange={handleChange} />
-      <Button type='submit' onClick={handleClickAdd} value='add node' disabled={!value || error} />
+      <InputContainer>
+        <Input type='number' value={value} onChange={handleChange} />
+        <Button type='submit' onClick={handleClickAdd} value='add node' disabled={!value || error} />
+      </InputContainer>
       <Error>{error}</Error>
     </Root>
   )
