@@ -21,13 +21,20 @@ const ControlPanel = styled.div`
   z-index: 1;
 `;
 
+const NotMobileOrTabletOptimizedMessage = styled.div`
+  position: absolute;
+  bottom: 10px;
+  width: 100vw;
+  text-align: center;
+  font-size: calc(5px + 2vmin);
+`;
+
 const BinarySearchTree = () => {
   const [root, setRoot] = useState(null);
   const [windowDimensions, setWindowDimensions] = useState({
     height: window.innerHeight,
     width: window.innerWidth,
   });
-
 
   const handleSetRoot = newRoot => setRoot({ ...newRoot }); // replaces root instead of mutates it
 
@@ -68,6 +75,11 @@ const BinarySearchTree = () => {
         {root === null && <div>Start by adding a node (enter a number).</div>}
         <RenderTree nodes={[root]} level={treeHeight} treeHeight={treeHeight} />
       </TreeContainer>
+      {windowDimensions.width < 800 &&
+        <NotMobileOrTabletOptimizedMessage>
+          This app is not yet optimized for mobile or tablet
+        </NotMobileOrTabletOptimizedMessage>
+      }
     </>
   );
 };
