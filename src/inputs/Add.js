@@ -12,7 +12,7 @@ const Input = styled.input`
 const Button = styled.input`
   color: ${props => props.disabled ? `grey` : `white`};
   cursor: ${props => props.disabled ? `default` : `pointer`};
-  padding-left: 4px;
+  padding-left: 7px;
   background: none;
   border: none;
   font-size: 14px;

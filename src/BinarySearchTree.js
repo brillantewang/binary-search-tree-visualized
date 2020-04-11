@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 import RenderTree from './RenderTree';
 import Add from './inputs/Add';
@@ -21,31 +21,23 @@ const ControlPanel = styled.div`
   z-index: 1;
 `;
 
-class BinarySearchTree extends React.Component {
-  constructor(props) {
-    super(props);
+const BinarySearchTree = () => {
+  const [root, setRoot] = useState(null);
 
-    this.ref = React.createRef();
-  }
+  const handleSetRoot = newRoot => setRoot({ ...newRoot }); // replaces root instead of mutates it
 
-  state = { root: null }
-
-  setRoot = root => {
-    this.setState({ root: { ...root }}); // replaces root insteads of mutates it
-  }
-
-  getTreeHeight(node = this.state.root) {
+  const getTreeHeight = (node = root) => {
     if (node === null) return 0;
 
     let childHeight;
     if (node.left && node.right) {
-      const leftHeight = this.getTreeHeight(node.left);
-      const rightHeight = this.getTreeHeight(node.right);
+      const leftHeight = getTreeHeight(node.left);
+      const rightHeight = getTreeHeight(node.right);
       childHeight = leftHeight > rightHeight ? leftHeight : rightHeight;
     } else if (node.left) {
-      childHeight = this.getTreeHeight(node.left);
+      childHeight = getTreeHeight(node.left);
     } else if (node.right) {
-      childHeight = this.getTreeHeight(node.right);
+      childHeight = getTreeHeight(node.right);
     } else {
       childHeight = 0;
     }
@@ -53,21 +45,19 @@ class BinarySearchTree extends React.Component {
     return childHeight + 1;
   }
 
-  render = () => {
-    const treeHeight = this.getTreeHeight();
+  const treeHeight = getTreeHeight();
 
-    return (
-      <>
-        <ControlPanel>
-          <Add root={this.state.root} setRoot={this.setRoot} />
-        </ControlPanel>
-        <TreeContainer ref={this.ref}>
-          {this.state.root === null && <div>Start by adding a node (enter a number).</div>}
-          <RenderTree nodes={[this.state.root]} level={treeHeight} treeHeight={treeHeight} />
-        </TreeContainer>
-      </>
-    )
-  }
-}
+  return (
+    <>
+      <ControlPanel>
+        <Add root={root} setRoot={handleSetRoot} />
+      </ControlPanel>
+      <TreeContainer>
+        {root === null && <div>Start by adding a node (enter a number).</div>}
+        <RenderTree nodes={[root]} level={treeHeight} treeHeight={treeHeight} />
+      </TreeContainer>
+    </>
+  );
+};
 
 export default BinarySearchTree;
